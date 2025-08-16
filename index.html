@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" sizes="192x192">
+<meta name="theme-color" content="#0b1324">
+<title>The Babylon Protocol</title>
+<meta name="description" content="Biblical-historical, reflective web app. Made by Justin — Depths to Heights.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;700&family=Oswald:wght@300;500&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Roboto Mono', monospace;
+  background: #0a0a0a;
+  color: #ffffff;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Animated city skyline background */
+.city-backdrop {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(to top, #1a1a2e 0%, transparent 100%);
+  z-index: 1;
+}
+
+.building {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(to top, #16213e 0%, #0f3460 100%);
+  box-shadow: 
+    inset 0 0 50px rgba(255,255,255,0.02),
+    0 0 20px rgba(0,212,255,0.1);
+}
+
+.building:before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0px,
+    transparent 8px,
+    rgba(255,255,255,0.1) 8px,
+    rgba(255,255,255,0.1) 12px
+  ),
+  repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 15px,
+    rgba(255,255,255,0.05) 15px,
+    rgba(255,255,255,0.05) 20px
+  );
+}
+
+.building-1 { left: 5%; width: 80px; height: 250px; }
+.building-2 { left: 20%; width: 100px; height: 200px; }
+.building-3 { left: 35%; width: 90px; height: 280px; }
+.building-4 { right: 30%; width: 110px; height: 220px; }
+.building-5 { right: 10%; width: 85px; height: 260px; }
+
+/* Main corporate dashboard */
+.executive-suite {
+  position: relative;
+  z-index: 10;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Stock ticker header */
+.stock-ticker {
+  background: linear-gradient(90deg, #000000 0%, #1a1a2e 50%, #000000 100%);
+  border-top: 2px solid #00d4ff;
+  border-bottom: 2px solid #00d4ff;
+  padding: 10px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 30px;
+  font-family: 'Roboto Mono', monospace;
+  box-shadow: 0 0 30px rgba(0,212,255,0.3);
+}
+
+.ticker-content {
+  display: flex;
+  animation: scroll-left 30s linear infinite;
+  white-space: nowrap;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.ticker-item {
+  margin-right: 50px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ticker-symbol {
+  color: #00d4ff;
+  font-weight: bold;
+}
+
+.ticker-value {
+  color: #ffffff;
+}
+
+.ticker-change-up {
+  color: #00ff88;
+}
+
+.ticker-change-down {
+  color: #ff4444;
+}
+
+/* CEO Dashboard Header */
+.ceo-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.company-logo {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 4rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 8px;
+  margin-bottom: 10px;
+  text-shadow: 0 0 60px rgba(102,126,234,0.5);
+}
+
+.ceo-title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 1.2rem;
+  color: #888;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+/* Corporate metrics dashboard */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.metric-card {
+  background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+  border: 1px solid #0f3460;
+  border-radius: 0;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,212,255,0.2);
+  border-color: #00d4ff;
+}
+
+.metric-card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+  animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.metric-value {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+
+.metric-chart {
+  margin-top: 10px;
+  height: 40px;
+  background: rgba(0,212,255,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff 0%, #00ff88 100%);
+  transition: width 1s ease;
+}
+
+/* Decision Matrix */
+.decision-chamber {
+  background: linear-gradient(135deg, rgba(26,26,46,0.9) 0%, rgba(22,33,62,0.9) 100%);
+  border: 2px solid #0f3460;
+  padding: 40px;
+  margin-bottom: 40px;
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+
+.decision-chamber:before {
+  content: 'EXECUTIVE DECISION REQUIRED';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff4444;
+  color: #ffffff;
+  padding: 5px 20px;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.crisis-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2rem;
+  color: #ff4444;
+  margin-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.crisis-description {
+  background: rgba(0,0,0,0.5);
+  padding: 20px;
+  margin-bottom: 30px;
+  border-left: 4px solid #ff4444;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Choice Matrix Grid */
+.choice-matrix {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.choice-card {
+  background: rgba(0,0,0,0.7);
+  border: 2px solid #333;
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.choice-card:hover {
+  border-color: #00d4ff;
+  transform: scale(1.02);
+  background: rgba(0,212,255,0.1);
+}
+
+.choice-card:before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #00d4ff, #00ff88, #00d4ff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.choice-card:hover:before {
+  opacity: 1;
+}
+
+.choice-type {
+  font-size: 0.9rem;
+  color: #00d4ff;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.choice-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.choice-description {
+  color: #aaa;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.choice-impacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.impact-badge {
+  padding: 5px 10px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid #333;
+  font-size: 0.8rem;
+  border-radius: 20px;
+}
+
+.impact-positive {
+  border-color: #00ff88;
+  color: #00ff88;
+}
+
+.impact-negative {
+  border-color: #ff4444;
+  color: #ff4444;
+}
+
+.impact-neutral {
+  border-color: #ffaa00;
+  color: #ffaa00;
+}
+
+/* Daniel's Wisdom Panel */
+.wisdom-panel {
+  background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
+  border: 1px solid #667eea;
+  border-radius: 10px;
+  padding: 30px;
+  margin: 40px 0;
+  position: relative;
+}
+
+.wisdom-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.daniel-avatar {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.wisdom-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  color: #667eea;
+}
+
+.wisdom-message {
+  color: #ccc;
+  line-height: 1.8;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.continue-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.continue-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+}
+
+/* Pride Meter */
+.pride-meter-container {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  background: rgba(0,0,0,0.8);
+  padding: 20px;
+  border: 2px solid #ff4444;
+  width: 100px;
+}
+
+.pride-meter-label {
+  color: #ff4444;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.pride-meter {
+  width: 60px;
+  height: 200px;
+  background: rgba(255,68,68,0.1);
+  border: 1px solid #ff4444;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.pride-level {
+  background: linear-gradient(to top, #ff4444, #ff8888);
+  transition: height 1s ease;
+  position: relative;
+}
+
+.pride-level:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: white;
+  opacity: 0.5;
+  animation: pulse-white 1s infinite;
+}
+
+@keyframes pulse-white {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+.pride-warning {
+  color: #ff4444;
+  font-size: 0.7rem;
+  text-align: center;
+  margin-top: 10px;
+  display: none;
+}
+
+.pride-warning.active {
+  display: block;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Outcome Report */
+.outcome-report {
+  display: none;
+  background: rgba(0,0,0,0.95);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.report-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #00d4ff;
+  padding: 40px;
+}
+
+.report-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #0f3460;
+}
+
+.report-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2.5rem;
+  color: #00d4ff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.report-subtitle {
+  color: #888;
+  font-size: 1.1rem;
+}
+
+.report-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.report-metric {
+  text-align: center;
+  padding: 20px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid #333;
+}
+
+.report-metric-value {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.report-metric-label {
+  color: #888;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.report-message {
+  color: #ccc;
+  line-height: 1.8;
+  margin: 30px 0;
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  border-left: 4px solid #00d4ff;
+}
+
+.report-continue-btn {
+  background: linear-gradient(135deg, #00d4ff 0%, #00ff88 100%);
+  color: #000;
+  border: none;
+  padding: 15px 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: block;
+  margin: 30px auto 0;
+  transition: all 0.3s ease;
+}
+
+.report-continue-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 40px rgba(0,212,255,0.4);
+}
+
+/* Scripture stone - unique holographic design */
+.scripture-hologram {
+  background: linear-gradient(135deg, rgba(102,126,234,0.05) 0%, rgba(118,75,162,0.05) 100%);
+  border: 1px solid rgba(102,126,234,0.3);
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 700px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scripture-hologram:before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    rgba(102,126,234,0.1) 50%, 
+    transparent 70%);
+  animation: hologram 3s linear infinite;
+}
+
+@keyframes hologram {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.scripture-text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #ccc;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.scripture-ref {
+  text-align: center;
+  margin-top: 15px;
+  color: #667eea;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 1;
+}
+
+/* About button */
+.about-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.8);
+  border: 2px solid #00d4ff;
+  color: #00d4ff;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  z-index: 100;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.about-btn:hover {
+  background: #00d4ff;
+  color: #000;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.95);
+  z-index: 2000;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 2px solid #00d4ff;
+  padding: 40px;
+  max-width: 600px;
+  margin: 50px auto;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.close-modal {
+  float: right;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #00d4ff;
+}
+
+.close-modal:hover {
+  color: #00ff88;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .choice-matrix {
+    grid-template-columns: 1fr;
+  }
+  
+  .pride-meter-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    top: auto;
+    transform: none;
+  }
+  
+  .company-logo {
+    font-size: 2.5rem;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- City backdrop -->
+<div class="city-backdrop">
+  <div class="building building-1"></div>
+  <div class="building building-2"></div>
+  <div class="building building-3"></div>
+  <div class="building building-4"></div>
+  <div class="building building-5"></div>
+</div>
+
+<button class="about-btn" onclick="openModal()">ABOUT</button>
+
+<!-- Pride Meter -->
+<div class="pride-meter-container">
+  <div class="pride-meter-label">PRIDE LEVEL</div>
+  <div class="pride-meter">
+    <div class="pride-level" id="prideLevel" style="height: 30%"></div>
+  </div>
+  <div class="pride-warning" id="prideWarning">⚠ DANGER ⚠</div>
+</div>
+
+<div class="executive-suite">
+  <!-- Stock ticker -->
+  <div class="stock-ticker">
+    <div class="ticker-content">
+      <div class="ticker-item">
+        <span class="ticker-symbol">BBYL</span>
+        <span class="ticker-value">$127.45</span>
+        <span class="ticker-change-up">▲ 2.3%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-symbol">PRIDE</span>
+        <span class="ticker-value">$89.20</span>
+        <span class="ticker-change-down">▼ 5.1%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-symbol">ETHICS</span>
+        <span class="ticker-value">$45.00</span>
+        <span class="ticker-change-down">▼ 12.8%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-symbol">PROFIT</span>
+        <span class="ticker-value">$234.78</span>
+        <span class="ticker-change-up">▲ 8.9%</span>
+      </div>
+      <div class="ticker-item">
+        <span class="ticker-symbol">WORKER</span>
+        <span class="ticker-value">$12.34</span>
+        <span class="ticker-change-down">▼ 18.2%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CEO Header -->
+  <div class="ceo-header">
+    <h1 class="company-logo">Babylon Corp</h1>
+    <p class="ceo-title">Chief Executive Officer Dashboard</p>
+  </div>
+
+  <!-- Metrics Dashboard -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Profit Margin</div>
+      <div class="metric-value" id="profitValue">45%</div>
+      <div class="metric-chart">
+        <div class="chart-fill" id="profitFill" style="width: 45%"></div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Worker Satisfaction</div>
+      <div class="metric-value" id="workerValue">65%</div>
+      <div class="metric-chart">
+        <div class="chart-fill" id="workerFill" style="width: 65%"></div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Public Image</div>
+      <div class="metric-value" id="publicValue">70%</div>
+      <div class="metric-chart">
+        <div class="chart-fill" id="publicFill" style="width: 70%"></div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Ethics Score</div>
+      <div class="metric-value" id="ethicsValue">80%</div>
+      <div class="metric-chart">
+        <div class="chart-fill" id="ethicsFill" style="width: 80%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decision Chamber -->
+  <div class="decision-chamber" id="decisionChamber">
+    <h2 class="crisis-title" id="crisisTitle">Loading Crisis...</h2>
+    <div class="crisis-description" id="crisisDescription">
+      Analyzing situation...
+    </div>
+    
+    <div class="choice-matrix" id="choiceMatrix">
+      <!-- Choices will be loaded here -->
+    </div>
+  </div>
+
+  <!-- Daniel's Wisdom Panel -->
+  <div class="wisdom-panel" id="wisdomPanel" style="display: none;">
+    <div class="wisdom-header">
+      <div class="daniel-avatar">📜</div>
+      <h3 class="wisdom-title">Daniel's Counsel</h3>
+    </div>
+    <p class="wisdom-message" id="wisdomMessage">
+      "Remember, O King, that all kingdoms rise and fall by the hand of the Most High..."
+    </p>
+    <button class="continue-btn" onclick="continueGame()">Continue</button>
+  </div>
+
+  <!-- Scripture -->
+  <div class="scripture-hologram">
+    <div class="scripture-text">
+      "He was driven from among men and ate grass like an ox... till he knew that the Most High God rules in the kingdom of men"
+    </div>
+    <div class="scripture-ref">Daniel 4:32-33</div>
+  </div>
+
+  <div role="note" style="margin:16px 0;font-size:.95rem;opacity:.95;text-align:center;color:#888;">
+    This app is free! If it inspired you, support my mission at
+    <a href="https://www.paypal.com/donate/?hosted_button_id=8GRE7B8C3TP2U" target="_blank" rel="noopener" style="color:#00d4ff;">this link</a>. Thanks! — Made by Justin — Depths to Heights
+  </div>
+</div>
+
+<!-- Outcome Report Modal -->
+<div class="outcome-report" id="outcomeReport">
+  <div class="report-container">
+    <div class="report-header">
+      <h2 class="report-title">Quarterly Report</h2>
+      <p class="report-subtitle" id="reportSubtitle">Impact Analysis</p>
+    </div>
+    
+    <div class="report-metrics">
+      <div class="report-metric">
+        <div class="report-metric-value" id="profitChange">+0%</div>
+        <div class="report-metric-label">Profit Change</div>
+      </div>
+      <div class="report-metric">
+        <div class="report-metric-value" id="workerChange">+0%</div>
+        <div class="report-metric-label">Worker Morale</div>
+      </div>
+      <div class="report-metric">
+        <div class="report-metric-value" id="ethicsChange">+0%</div>
+        <div class="report-metric-label">Ethics Impact</div>
+      </div>
+    </div>
+    
+    <div class="report-message" id="reportMessage">
+      Your decision has been implemented...
+    </div>
+    
+    <button class="report-continue-btn" onclick="closeReport()">Next Quarter</button>
+  </div>
+</div>
+
+<!-- About Modal -->
+<div id="aboutModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <h2 style="color: #00d4ff; font-family: 'Bebas Neue', cursive; font-size: 2rem;">THE BABYLON PROTOCOL</h2>
+    <p style="margin: 20px 0; line-height: 1.8; color: #ccc;">
+      Lead a modern corporation facing the same pride and ethical challenges as King Nebuchadnezzar of Babylon. Balance profit versus people while navigating strikes, scandals, and moral dilemmas.
+    </p>
+    <h3 style="color: #667eea; margin-top: 25px;">Your Challenge:</h3>
+    <ul style="margin: 15px 0; padding-left: 25px; line-height: 1.8; color: #aaa;">
+      <li>Manage profit margins while treating workers fairly</li>
+      <li>Handle environmental regulations vs. growth</li>
+      <li>Navigate corporate scandals and cover-ups</li>
+      <li>Choose between pride and humility</li>
+      <li>Learn from Daniel's wisdom before falling like Nebuchadnezzar</li>
+    </ul>
+    <h3 style="color: #667eea; margin-top: 25px;">The Pride Meter:</h3>
+    <p style="margin: 15px 0; color: #aaa;">
+      Watch your pride level carefully. Like Nebuchadnezzar, excessive pride leads to a fall. High pride brings short-term gains but long-term destruction.
+    </p>
+    <h3 style="color: #667eea; margin-top: 25px;">Contact & Support</h3>
+    <p style="margin: 15px 0; color: #aaa;">
+      <strong>Made by Justin — Depths to Heights</strong><br>
+      Email: depthstoheights@gmail.com<br>
+      Website: <a href="https://depthstoheights.org" target="_blank" style="color: #00d4ff;">depthstoheights.org</a><br>
+      Support: <a href="https://www.paypal.com/donate/?hosted_button_id=8GRE7B8C3TP2U" target="_blank" style="color: #00d4ff;">Donate</a>
+    </p>
+    <p style="background: rgba(255,68,68,0.1); padding: 15px; border-radius: 0; margin: 20px 0; border-left: 3px solid #ff4444; color: #aaa;">
+      <strong>Disclaimer:</strong> Spiritual encouragement and education — not medical or business advice.<br>
+      In the U.S., call/text <strong>988</strong> (Suicide & Crisis Lifeline).
+    </p>
+  </div>
+</div>
+
+<script>
+// Game state
+let gameState = {
+  profit: 45,
+  workers: 65,
+  publicImage: 70,
+  ethics: 80,
+  pride: 30,
+  quarter: 1,
+  crisisIndex: 0,
+  danielWarnings: 0
+};
+
+// Crisis scenarios
+const crises = [
+  {
+    title: "Worker Strike Imminent",
+    description: "Your factory workers demand a 15% wage increase and better safety conditions. They threaten a massive strike that could halt production for weeks. Wall Street expects you to maintain profit margins.",
+    choices: [
+      {
+        type: "Nebuchadnezzar's Way",
+        title: "Crush the Strike",
+        description: "Fire strike leaders, hire replacements, call in security forces",
+        impacts: { profit: 15, workers: -30, publicImage: -20, ethics: -25, pride: 20 }
+      },
+      {
+        type: "Compromise",
+        title: "Partial Concessions",
+        description: "Offer 7% raise, promise safety review in 6 months",
+        impacts: { profit: -5, workers: 10, publicImage: 5, ethics: 5, pride: 0 }
+      },
+      {
+        type: "Daniel's Wisdom",
+        title: "Full Support",
+        description: "Meet all demands, admit past negligence, invest in workers",
+        impacts: { profit: -15, workers: 35, publicImage: 20, ethics: 25, pride: -15 }
+      },
+      {
+        type: "Manipulation",
+        title: "Divide and Conquer",
+        description: "Secretly offer deals to some workers to break solidarity",
+        impacts: { profit: 5, workers: -15, publicImage: -10, ethics: -20, pride: 15 }
+      }
+    ]
+  },
+  {
+    title: "Environmental Scandal Exposed",
+    description: "Investigative journalists discovered your subsidiary has been dumping toxic waste in poor communities for years. The EPA is investigating, and activists are protesting at headquarters.",
+    choices: [
+      {
+        type: "Cover-Up",
+        title: "Deny Everything",
+        description: "Hire PR firm, threaten journalists with lawsuits, destroy evidence",
+        impacts: { profit: -5, workers: -10, publicImage: -25, ethics: -30, pride: 25 }
+      },
+      {
+        type: "Deflection",
+        title: "Blame Subsidiary",
+        description: "Fire subsidiary executives, claim no knowledge",
+        impacts: { profit: -10, workers: -5, publicImage: -10, ethics: -15, pride: 10 }
+      },
+      {
+        type: "Daniel's Wisdom",
+        title: "Full Accountability",
+        description: "Admit fault, clean up sites, compensate victims, reform practices",
+        impacts: { profit: -25, workers: 20, publicImage: 15, ethics: 30, pride: -20 }
+      },
+      {
+        type: "Legal Minimum",
+        title: "Comply Grudgingly",
+        description: "Do only what's legally required, no admission of guilt",
+        impacts: { profit: -15, workers: 0, publicImage: -15, ethics: -10, pride: 5 }
+      }
+    ]
+  },
+  {
+    title: "Competitor Acquisition Opportunity",
+    description: "You can acquire your biggest competitor through hostile takeover. This would create a near-monopoly but require laying off 10,000 employees and likely trigger antitrust investigations.",
+    choices: [
+      {
+        type: "Empire Building",
+        title: "Hostile Takeover",
+        description: "Acquire at any cost, become industry emperor",
+        impacts: { profit: 30, workers: -25, publicImage: -15, ethics: -20, pride: 30 }
+      },
+      {
+        type: "Strategic Merger",
+        title: "Negotiate Merger",
+        description: "Friendly merger with some job guarantees",
+        impacts: { profit: 15, workers: -10, publicImage: 0, ethics: -5, pride: 10 }
+      },
+      {
+        type: "Daniel's Wisdom",
+        title: "Fair Competition",
+        description: "Compete fairly, focus on innovation not domination",
+        impacts: { profit: 0, workers: 10, publicImage: 15, ethics: 20, pride: -10 }
+      },
+      {
+        type: "Secret Alliance",
+        title: "Price Fixing Deal",
+        description: "Secretly coordinate prices with competitor",
+        impacts: { profit: 20, workers: 0, publicImage: -20, ethics: -25, pride: 15 }
+      }
+    ]
+  },
+  {
+    title: "Whistleblower Threat",
+    description: "An employee threatens to expose your company's tax evasion schemes to the IRS. They have evidence of offshore accounts hiding $500 million in profits.",
+    choices: [
+      {
+        type: "Intimidation",
+        title: "Silence Them",
+        description: "Threaten legal action, ruin their career",
+        impacts: { profit: 10, workers: -20, publicImage: -30, ethics: -35, pride: 20 }
+      },
+      {
+        type: "Bribery",
+        title: "Buy Their Silence",
+        description: "Offer huge payout with strict NDA",
+        impacts: { profit: -5, workers: -10, publicImage: -10, ethics: -20, pride: 10 }
+      },
+      {
+        type: "Daniel's Wisdom",
+        title: "Come Clean",
+        description: "Self-report to IRS, pay all taxes and penalties",
+        impacts: { profit: -30, workers: 15, publicImage: 10, ethics: 35, pride: -25 }
+      },
+      {
+        type: "Partial Admission",
+        title: "Limited Disclosure",
+        description: "Admit small portion, hide the rest",
+        impacts: { profit: -10, workers: -5, publicImage: -15, ethics: -15, pride: 5 }
+      }
+    ]
+  },
+  {
+    title: "AI Automation Decision",
+    description: "New AI technology could replace 50% of your workforce but triple profits. Shareholders demand implementation, workers fear for their futures, and communities depend on these jobs.",
+    choices: [
+      {
+        type: "Maximum Profit",
+        title: "Full Automation",
+        description: "Replace all possible workers with AI immediately",
+        impacts: { profit: 40, workers: -40, publicImage: -25, ethics: -30, pride: 25 }
+      },
+      {
+        type: "Gradual Transition",
+        title: "Phase Implementation",
+        description: "Slow rollout with retraining programs",
+        impacts: { profit: 15, workers: -15, publicImage: 0, ethics: 0, pride: 5 }
+      },
+      {
+        type: "Daniel's Wisdom",
+        title: "Human-AI Partnership",
+        description: "Use AI to augment workers, not replace them",
+        impacts: { profit: 5, workers: 20, publicImage: 20, ethics: 25, pride: -15 }
+      },
+      {
+        type: "Secret Testing",
+        title: "Hidden Pilot Program",
+        description: "Test AI secretly while telling workers jobs are safe",
+        impacts: { profit: 20, workers: -30, publicImage: -20, ethics: -25, pride: 15 }
+      }
+    ]
+  },
+  {
+    title: "Government Corruption Offer",
+    description: "A senator offers to kill regulations that would cost you billions, in exchange for illegal campaign contributions and a board position for his son.",
+    choices: [
+      {
+        type: "Full Corruption",
+        title: "Accept Deal",
+        description: "Pay bribes, give position, own the government",
+        impacts: { profit: 35, workers: -5, publicImage: -35, ethics: -40, pride: 30 }
+      },
+      {
+        type: "Soft Corruption",
+        title: "Legal Lobbying",
+        description: "Use legal but aggressive lobbying instead",
+        impacts: { profit: 15, workers: -5, publicImage: -10, ethics: -10, pride: 10 }
+      },
+      {
+        type: "Daniel's Wisdom",
+        title: "Report to FBI",
+        description: "Report corruption attempt to authorities",
+        impacts: { profit: -20, workers: 10, publicImage: 25, ethics: 35, pride: -20 }
+      },
+      {
+        type: "Polite Decline",
+        title: "Simply Refuse",
+        description: "Decline offer without reporting",
+        impacts: { profit: -10, workers: 0, publicImage: 0, ethics: 5, pride: 0 }
+      }
+    ]
+  }
+];
+
+// Load current crisis
+function loadCrisis() {
+  const crisis = crises[gameState.crisisIndex % crises.length];
+  
+  document.getElementById('crisisTitle').textContent = crisis.title;
+  document.getElementById('crisisDescription').textContent = crisis.description;
+  
+  const choiceMatrix = document.getElementById('choiceMatrix');
+  choiceMatrix.innerHTML = crisis.choices.map((choice, index) => {
+    const impacts = [];
+    for (let key in choice.impacts) {
+      const value = choice.impacts[key];
+      const className = value > 0 ? 'impact-positive' : value < 0 ? 'impact-negative' : 'impact-neutral';
+      const symbol = value > 0 ? '+' : '';
+      impacts.push(`<span class="impact-badge ${className}">${key}: ${symbol}${value}</span>`);
+    }
+    
+    return `
+      <div class="choice-card" onclick="makeChoice(${index})">
+        <div class="choice-type">${choice.type}</div>
+        <h3 class="choice-title">${choice.title}</h3>
+        <p class="choice-description">${choice.description}</p>
+        <div class="choice-impacts">${impacts.join('')}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Make a choice
+function makeChoice(choiceIndex) {
+  const crisis = crises[gameState.crisisIndex % crises.length];
+  const choice = crisis.choices[choiceIndex];
+  
+  // Apply impacts
+  const oldState = { ...gameState };
+  for (let key in choice.impacts) {
+    if (gameState[key] !== undefined) {
+      gameState[key] = Math.max(0, Math.min(100, gameState[key] + choice.impacts[key]));
+    }
+  }
+  
+  // Show outcome report
+  showOutcomeReport(choice, oldState);
+  
+  // Check for Daniel's warning
+  if (gameState.pride > 70 && gameState.danielWarnings < 3) {
+    gameState.danielWarnings++;
+    showDanielWarning();
+  }
+  
+  // Check for fall
+  if (gameState.pride >= 100) {
+    showNebuchadnezzarFall();
+  }
+}
+
+// Show outcome report
+function showOutcomeReport(choice, oldState) {
+  const report = document.getElementById('outcomeReport');
+  
+  document.getElementById('reportSubtitle').textContent = `${choice.type} - ${choice.title}`;
+  
+  // Calculate changes
+  const profitChange = gameState.profit - oldState.profit;
+  const workerChange = gameState.workers - oldState.workers;
+  const ethicsChange = gameState.ethics - oldState.ethics;
+  
+  document.getElementById('profitChange').textContent = (profitChange >= 0 ? '+' : '') + profitChange + '%';
+  document.getElementById('workerChange').textContent = (workerChange >= 0 ? '+' : '') + workerChange + '%';
+  document.getElementById('ethicsChange').textContent = (ethicsChange >= 0 ? '+' : '') + ethicsChange + '%';
+  
+  // Generate message
+  let message = '';
+  if (choice.type === "Daniel's Wisdom") {
+    message = "Your decision shows wisdom and humility. Though profits may suffer temporarily, you're building a sustainable and ethical enterprise. Your workers respect you, and your conscience is clear.";
+  } else if (choice.type === "Nebuchadnezzar's Way" || choice.type === "Empire Building") {
+    message = "Your ruthless decision increases profits but at great cost. Like Nebuchadnezzar building his golden statue, your pride grows with your power. Remember: pride comes before the fall.";
+  } else {
+    message = "Your decision reflects the complex realities of corporate leadership. Every choice has consequences - some visible immediately, others revealing themselves over time.";
+  }
+  
+  document.getElementById('reportMessage').textContent = message;
+  
+  report.style.display = 'block';
+}
+
+// Close report and continue
+function closeReport() {
+  document.getElementById('outcomeReport').style.display = 'none';
+  updateDisplay();
+  gameState.crisisIndex++;
+  gameState.quarter++;
+  loadCrisis();
+}
+
+// Show Daniel's warning
+function showDanielWarning() {
+  const wisdomPanel = document.getElementById('wisdomPanel');
+  const messages = [
+    "Your pride grows dangerous, O King of Commerce. Remember Nebuchadnezzar who said 'Is not this great Babylon, which I have built?' Before his fall, he was warned.",
+    "The Most High rules in the kingdom of men and gives it to whom He will. Your empire is but dust if built on oppression and pride.",
+    "Final warning: Humble yourself before you are humbled. The tree that grows too tall and provides no shade will be cut down."
+  ];
+  
+  document.getElementById('wisdomMessage').textContent = messages[gameState.danielWarnings - 1];
+  wisdomPanel.style.display = 'block';
+  document.getElementById('decisionChamber').style.display = 'none';
+}
+
+// Continue after Daniel's warning
+function continueGame() {
+  document.getElementById('wisdomPanel').style.display = 'none';
+  document.getElementById('decisionChamber').style.display = 'block';
+}
+
+// Show Nebuchadnezzar's fall
+function showNebuchadnezzarFall() {
+  const report = document.getElementById('outcomeReport');
+  document.getElementById('reportSubtitle').textContent = 'THE FALL OF BABYLON CORP';
+  document.getElementById('reportMessage').textContent = 
+    "Like Nebuchadnezzar, your pride has led to your downfall. The board removes you, investigations begin, and your empire crumbles. You are left to wander the corporate wilderness, eating the grass of humiliation until you acknowledge that true success comes not from pride but from wisdom and service.";
+  
+  document.getElementById('profitChange').textContent = '-100%';
+  document.getElementById('workerChange').textContent = 'FREED';
+  document.getElementById('ethicsChange').textContent = 'RESET';
+  
+  document.querySelector('.report-continue-btn').textContent = 'Start Over';
+  document.querySelector('.report-continue-btn').onclick = () => location.reload();
+  
+  report.style.display = 'block';
+}
+
+// Update display
+function updateDisplay() {
+  // Update metrics
+  document.getElementById('profitValue').textContent = Math.round(gameState.profit) + '%';
+  document.getElementById('profitFill').style.width = gameState.profit + '%';
+  
+  document.getElementById('workerValue').textContent = Math.round(gameState.workers) + '%';
+  document.getElementById('workerFill').style.width = gameState.workers + '%';
+  
+  document.getElementById('publicValue').textContent = Math.round(gameState.publicImage) + '%';
+  document.getElementById('publicFill').style.width = gameState.publicImage + '%';
+  
+  document.getElementById('ethicsValue').textContent = Math.round(gameState.ethics) + '%';
+  document.getElementById('ethicsFill').style.width = gameState.ethics + '%';
+  
+  // Update pride meter
+  document.getElementById('prideLevel').style.height = gameState.pride + '%';
+  
+  if (gameState.pride > 70) {
+    document.getElementById('prideWarning').classList.add('active');
+  } else {
+    document.getElementById('prideWarning').classList.remove('active');
+  }
+}
+
+// Modal functions
+function openModal() {
+  document.getElementById('aboutModal').style.display = 'block';
+}
+
+function closeModal() {
+  document.getElementById('aboutModal').style.display = 'none';
+}
+
+// Initialize game
+loadCrisis();
+updateDisplay();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js');
+  }
+</script>
+</body>
+</html>
